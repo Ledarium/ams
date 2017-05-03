@@ -25,4 +25,13 @@ system_configs = {'name': "system configs",
                             "/etc/modprobe.d/alsa-base.conf",
                             "/etc/systemd/system/suspend@.service"]
                  }
-categories = [user_configs, system_configs]
+backup = [user_configs, system_configs]
+''' not implemented
+remove_orphans = {'name': "yaourt",
+                  'flags': "-Qdt",
+                  }
+full_update = {'name': "yaourt",
+               'flags': "-Syuu",
+               }
+update = [remove_orphans, full_update]
+'''

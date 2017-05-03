@@ -10,12 +10,12 @@ def backup():
     # preparations
     date = datetime.now().strftime("%d-%m-%y.%H:%M:%S")
     backup_path = Path(config.backup_path).expanduser()
-    debug("Backup_path is set to", backup_path)
+    debug("Backup_path is set to "+ str(backup_path))
     if not backup_path.is_dir():
         backup_path.mkdir()
     backup_location = backup_path / date
     backup_location.mkdir()
-    debug("Current backup will be saved in", backup_location)
+    debug("Current backup will be saved in " + str(backup_location))
     if config.rsync_args:
         global_args = config.rsync_args
     else:
@@ -26,7 +26,7 @@ def backup():
         location = backup_location / category['folder']
         location.mkdir(exist_ok=True)
         location = str(location)
-        for path in category['files']:
+        for path in category['paths']:
             call(' '.join([
                  category.get('prefix', ''), # prefix rsync command (for example with sudo)
                  'rsync',

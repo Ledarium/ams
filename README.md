@@ -6,7 +6,7 @@ Arch Maintain System - one solution to rule them all.
 * Updating and maintaining packages
 * ... and other cool stuff.
 
-Currently only backup feature is implemented. Maybe you want to help?
+Currently backup and update feature is implemented. Maybe you want to help?
 
 ## Installation
 Clone this repo and you already rock.

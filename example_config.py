@@ -1,4 +1,5 @@
 backup_path = "~/.backups"
+package_utility = "yaourt"
 rsync_args = "-pogbr -hhh --progress"
 '''
 Enabled options for rsync are:
@@ -27,12 +28,6 @@ user_configs = {'name': "user configs",
                 }
 backup = [user_configs, system_configs]
 
-''' not implemented
-remove_orphans = {'name': "yaourt",
-                  'flags': "-Qdt",
-                  }
-full_update = {'name': "yaourt",
-               'flags': "-Syuu",
-               }
+remove_orphans = {'flags': "-Qdt"}
+full_update = {'flags': "-Syuu"}
 update = [remove_orphans, full_update]
-'''

@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 from subprocess import call
 from pathlib import Path
+from os import path
 from datetime import datetime
-from logging import debug, info
+from logging import debug, info, warning
 import config
+
+
+def expanded_path(string):  # It's pretty shitty, I know.
+    return Path(path.expandvars(path.expanduser(string)))
 
 
 def backup():
     # preparations
     date = datetime.now().strftime("%d-%m-%y.%H:%M:%S")
-    backup_path = Path(config.backup_path).expanduser()
+    backup_path = expanded_path(config.backup_path)
     debug("Backup_path is set to " + str(backup_path))
     if not backup_path.is_dir():
         backup_path.mkdir()
@@ -23,17 +28,31 @@ def backup():
 
     def backup_files(category):
         debug("Backing up category " + category['name'])
-        location = backup_location / category['folder']
-        location.mkdir(exist_ok=True)
-        location = str(location)
-        for path in category['paths']:
-            call(' '.join([
+        parent = category.get('relative_to', None)
+        category_location = backup_location / expanded_path(category['folder'])
+        category_location.mkdir()
+        if parent:  # path is relative
+            parent = expanded_path(parent)
+
+        for source in category['paths']:
+            if parent:
+                location = category_location \
+                    / expanded_path(source).parent
+                source = parent / expanded_path(source)
+            else:
+                source = expanded_path(source)
+                location = category_location \
+                    / expanded_path(source).parent.relative_to('/')
+                location.mkdir(parents=True, exist_ok=True)
+            debug("source {0} goes to {1}".format(source, location))
+            exec_string = ' '.join([
                 category.get('prefix', ''),
                 'rsync',
                 category.get('args', global_args),
-                path,
-                location]),
-                shell=True)
+                str(source),
+                str(location)])
+            debug(exec_string)
+            call(exec_string, shell=True)
         info("Sucessfully backed up category " + category['name'])
 
     for category in config.backup:

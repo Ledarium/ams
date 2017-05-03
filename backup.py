@@ -22,7 +22,7 @@ def backup():
         global_args == "--progress"
 
     def backup_files(category):
-        info("Backing up " + category['name'])
+        debug("Backing up category " + category['name'])
         location = backup_location / category['folder']
         location.mkdir(exist_ok=True)
         location = str(location)
@@ -34,11 +34,13 @@ def backup():
                 path,
                 location]),
                 shell=True)
+        info("Sucessfully backed up category " + category['name'])
 
     for category in config.backup:
         backup_files(category)
 
     def backup_packages():
+        debug("Starting packagelist backup")
         location = backup_location / "pkglist.txt"
         debug("Pkglist goes to " + str(location))
         call(' '.join([
@@ -46,5 +48,6 @@ def backup():
             '-Qqe >',
             str(location)]),
             shell=True)
+        info("Package list backed up")
 
     backup_packages()

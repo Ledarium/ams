@@ -2,7 +2,7 @@
 from subprocess import call
 from pathlib import Path
 from datetime import datetime
-from logging import debug
+from logging import debug, info
 import config
 
 
@@ -10,7 +10,7 @@ def backup():
     # preparations
     date = datetime.now().strftime("%d-%m-%y.%H:%M:%S")
     backup_path = Path(config.backup_path).expanduser()
-    debug("Backup_path is set to "+ str(backup_path))
+    debug("Backup_path is set to " + str(backup_path))
     if not backup_path.is_dir():
         backup_path.mkdir()
     backup_location = backup_path / date
@@ -21,18 +21,30 @@ def backup():
     else:
         global_args == "--progress"
 
-    def backup_category(category):
-        print("Backing up", category['name'])
+    def backup_files(category):
+        info("Backing up " + category['name'])
         location = backup_location / category['folder']
         location.mkdir(exist_ok=True)
         location = str(location)
         for path in category['paths']:
             call(' '.join([
-                 category.get('prefix', ''), # prefix rsync command (for example with sudo)
-                 'rsync',
-                 category.get('args', global_args), # args passed to rsync
-                 path,
-                 location]), shell = True)
+                category.get('prefix', ''),
+                'rsync',
+                category.get('args', global_args),
+                path,
+                location]),
+                shell=True)
 
     for category in config.backup:
-        backup_category(category)
+        backup_files(category)
+
+    def backup_packages():
+        location = backup_location / "pkglist.txt"
+        debug("Pkglist goes to " + str(location))
+        call(' '.join([
+            config.package_utility,
+            '-Qqe >',
+            str(location)]),
+            shell=True)
+
+    backup_packages()

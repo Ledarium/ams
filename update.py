@@ -1,5 +1,9 @@
-from subprocess import call, Popen, PIPE
+from subprocess import call
+import config
 
 
 def update():
-    pass
+    for action in config.update:
+        call(' '.join([config.package_utility,
+                       action['flags']]),
+             shell=True)

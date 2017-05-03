@@ -4,5 +4,6 @@ import config
 
 def update():
     for action in config.update:
-         call(' '.join([action['command'], action['flags']]),
+        call(' '.join([config.package_utility,
+                       action['flags']]),
              shell=True)

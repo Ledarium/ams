@@ -26,7 +26,7 @@ def backup():
     else:
         global_args == "--progress"
 
-    def backup_files(category, simulate=False):
+    def backup_files(category):
         debug("Backing up category " + category['name'])
         parent = category.get('relative_to', None)
         category_location = backup_location / expanded_path(category['folder'])
@@ -52,8 +52,7 @@ def backup():
                 str(source),
                 str(location)])
             debug(exec_string)
-            if not simulate:
-                call(exec_string, shell=True)
+            call(exec_string, shell=True)
         info("Sucessfully backed up category " + category['name'])
 
     for category in config.backup:

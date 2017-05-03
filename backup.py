@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from subprocess import call, Popen, PIPE
-import shlex
+from subprocess import call
 from pathlib import Path
 from datetime import datetime
+from logging import debug
 import config
 
 
@@ -10,14 +10,12 @@ def backup():
     # preparations
     date = datetime.now().strftime("%d-%m-%y.%H:%M:%S")
     backup_path = Path(config.backup_path).expanduser()
-    if config.verbose_mode:
-        print("Backup_path is set to", backup_path)
+    debug("Backup_path is set to", backup_path)
     if not backup_path.is_dir():
         backup_path.mkdir()
     backup_location = backup_path / date
     backup_location.mkdir()
-    if config.verbose_mode:
-        print("Current backup will be saved in", backup_location)
+    debug("Current backup will be saved in", backup_location)
     if config.rsync_args:
         global_args = config.rsync_args
     else:
@@ -38,7 +36,3 @@ def backup():
 
     for category in config.categories:
         backup_category(category)
-
-
-if __name__ == "__main__":
-    backup()

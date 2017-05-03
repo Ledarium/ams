@@ -34,5 +34,5 @@ def backup():
                  path,
                  location]), shell = True)
 
-    for category in config.categories:
+    for category in config.backup:
         backup_category(category)

@@ -1,15 +1,11 @@
-from subprocess import call
 from os import chdir
-from logging import debug, info
-import config
+from utility import launch
 
 
-def archive(path):
+def archive(path, date, tar_args):
+    archive_name = '"./'+date+'.tar.xz"'
     chdir(path)
-    exec_string = ' '.join([
-        'tar',
-        config.tar_args,
-        "backup.tar.xz",
-        "*"])
-    debug(exec_string)
-    call(exec_string, shell=True)
+    launch([ 'tar',
+            tar_args,
+            archive_name,
+            "*"])

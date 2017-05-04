@@ -1,9 +1,8 @@
-from subprocess import call
-import config
+from utility import launch
+from logging import info
 
 
-def update():
-    for action in config.update:
-        call(' '.join([config.package_utility,
-                       action['flags']]),
-             shell=True)
+def update(actions, util):
+    for action in actions:
+        info('Performing '+action['name'])
+        launch([util, action['flags']])

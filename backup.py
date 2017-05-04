@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 from subprocess import call
 from pathlib import Path
 from os import path
 from datetime import datetime
-from logging import debug, info, warning
+from logging import debug, info
 import config
 
 
@@ -70,3 +69,4 @@ def backup():
         info("Package list backed up")
 
     backup_packages()
+    return(backup_location)

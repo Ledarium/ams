@@ -71,16 +71,3 @@ Enabled options for rsync are:
     -hhh: outputs numbers in units of 1024 (K, M, G, T).
     --progress: show progress
 '''
-
-update = {
-    'tasklist': [
-        {
-            'name': "Removing orphans",
-            'flags': "-Qdt",
-        },
-        {
-            'name': "Full system update",
-            'flags': "-Syuua",
-        }
-    ]
-}

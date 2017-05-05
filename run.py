@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from backup import file_backup, pkglist_backup
-from update import update
 from archive import archive
 from argparse import ArgumentParser
 from logging import DEBUG, INFO, basicConfig, debug, info
@@ -63,11 +62,5 @@ if config.archive and not args.noarchive:
     archive(path, current_date, config.archive['tar_args'])
 else:
     info("Skipping archiving...")
-
-if config.update and not args.noupdate:
-    info("Launching update")
-    update(config.update['tasklist'], config.system['utility'])
-else:
-    info("Skipping update...")
 
 info("We are done, thank you.")

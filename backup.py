@@ -41,7 +41,7 @@ def file_backup(backup_location, rsync_args, tasklist):
 def pkglist_backup(backup_location, utility):
     debug("Starting packagelist backup")
     location = backup_location / "pkglist.txt"
-    backup_location.mkdir()
+    backup_location.mkdir(exist_ok=True)
     debug("Pkglist goes to " + str(location))
     launch([utility,
             '-Qqe >',

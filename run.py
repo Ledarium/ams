@@ -6,7 +6,7 @@ from logging import DEBUG, INFO, basicConfig, debug, info
 from utility import config, date, expanded_path
 
 parser = ArgumentParser(
-    description="ams - utility to backup and maintain your Arch"
+    description="lbs - utility to easily backup your files"
 )
 parser.add_argument("-v", "--verbose",
                     help="show verbose output",
